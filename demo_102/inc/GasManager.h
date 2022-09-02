@@ -6,6 +6,7 @@
 
 #include "ConfigurationManager.h"
 #include "Globals.h"
+#include <EEPROM.h>
 
 
 class Gas
@@ -100,6 +101,7 @@ public:
     void calibrate(float zero){
         m_zero = zero;
         m_intercept = -zero;
+        EEPROM.writeDouble(12, m_intercept);
         Serial.println(m_zero);
         Serial.println(m_calgas);
         Serial.println(m_secondp);
@@ -108,6 +110,8 @@ public:
     void calibrate2(float cal){
         m_calgas = cal;
         m_secondp = 1/(m_calgas - m_zero);
+        EEPROM.writeDouble(20, m_secondp);
+
         Serial.println(m_zero);
         Serial.println(m_calgas);
         Serial.println(m_secondp);
